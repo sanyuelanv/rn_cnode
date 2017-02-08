@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import styles from './style'
 import {Animated,StyleSheet,Text,View,NavigationExperimental} from 'react-native'
-const {PropTypes,StateUtils,Transitioner,Card} = NavigationExperimental
+const {Card} = NavigationExperimental
 const {PagerPanResponder,PagerStyleInterpolator} = Card
 
 class Init extends Component {
@@ -9,7 +9,7 @@ class Init extends Component {
     super(props)
   }
   render() {
-    let {scene,navigate} = this.props
+    let {scene,navigate,progress} = this.props
     let {route} = scene
 
     const panHandlers = PagerPanResponder.forHorizontal({
