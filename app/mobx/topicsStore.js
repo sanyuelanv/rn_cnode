@@ -27,7 +27,7 @@ class fetchDataStore {
       )
   }
   constructor() {
-    this.data = null
+    this.data = []
     this.state = 0
   }
 }
