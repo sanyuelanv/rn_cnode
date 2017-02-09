@@ -6,12 +6,12 @@ import {
 
 // 请求
 class fetchDataStore {
-  @observable data;
-  @observable state;
-  @observable time;
+  @observable data
+  @observable state
+  @observable time
   @action fetchNews = (page) => {
     this.state = 1
-    let fetchURL = 'https://cnodejs.org/api/v1/topics' + "?page=" + page
+    let fetchURL = 'https://cnodejs.org/api/v1/topics?page=' + page
     fetch(fetchURL, {method: 'get'})
       .then(res => res.json())
       .then(
@@ -20,12 +20,10 @@ class fetchDataStore {
           if(success){
             this.state = 2
             this.time = new Date().getTime()
-            this.data = data
+            if(page.length > 0){}
+            else {this.data = data}
           }
-          else {
-            this.state = -1
-          }
-
+          else {this.state = -1}
         })
       )
       .catch(

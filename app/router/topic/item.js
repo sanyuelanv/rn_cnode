@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import styles from './style'
-import {StyleSheet,Text,View,Image} from 'react-native'
+import {StyleSheet,Text,View,Image,TouchableOpacity} from 'react-native'
 
 class Item extends Component {
   constructor(props){
@@ -8,10 +8,15 @@ class Item extends Component {
   }
   componentWillMount(){
   }
+  _onPress(){
+    let {article,navigator} = this.props
+    let {id} = article
+  }
   render() {
     let {isLast,article} = this.props
     let {name,avatar,time,tag,title,seeNumber,cmtNumber,lastCmtTime} = article
     return (
+      <TouchableOpacity onPress={this._onPress.bind(this)}>
       <View style={isLast?styles.itemContainerLast:styles.itemContainer}>
         <View style={styles.itemHeader}>
           <Image
@@ -41,6 +46,7 @@ class Item extends Component {
           </View>
         </View>
       </View>
+      </TouchableOpacity>
     )
   }
 }

@@ -40,6 +40,16 @@ const getTimeFunc = function(nowTime,getTime){
   }
   else {return days + '天前'}
 }
+const getLastTimeFunc = function(time){
+  let date = new Date(time)
+  let Y = date.getFullYear() + '-'
+  let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-'
+  let D = (date.getDate()  < 10 ? '0'+(date.getDate()) : date.getDate())  + ' '
+  let h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':'
+  let m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()) + ':'
+  let s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds())
+  return(Y+M+D+h+m+s)
+}
 
 @observer
 class Index extends Component {
@@ -51,9 +61,11 @@ class Index extends Component {
     fetchNews(1)
   }
   _ArticleStruct(value,index){
-    let {time,data} = this.props.store
+    let {navigator,store} = this.props
+    let {time,data} = store
     let isLast = (index == data.length - 1)?true:false
     let article = {
+      id:value.id,
       name:value.author.loginname,
       avatar:value.author.avatar_url,
       time:getTimeFunc(time,new Date(value.create_at).getTime()),
@@ -63,7 +75,7 @@ class Index extends Component {
       seeNumber:value.visit_count,
       lastCmtTime:getTimeFunc(time,new Date(value.last_reply_at).getTime()),
     }
-    return(<Item article={article} key={value.id} isLast={isLast} />)
+    return(<Item article={article} key={value.id} isLast={isLast} navigator={navigator} />)
   }
   _renderItem(){
     let {state,data} = this.props.store
@@ -73,18 +85,28 @@ class Index extends Component {
       return ItemArray
     }
   }
-  _onRefresh(){}
+  _onRefresh(){
+    let {fetchNews} = this.props.store
+    fetchNews(1)
+  }
   _renderRefreshControl(){
-    let {state} = this.props.store
+    let {state,time} = this.props.store
     let loadFlag = false
-    if(state == 0 || state == 1){loadFlag = true}
+    let text = "加载中"
+    if(time != 0 && state == 2){
+      text = '上次加载时间：'+ getLastTimeFunc(time)
+    }
+    if(state == 0 || state == 1){
+      loadFlag = true
+      text = "加载中"
+    }
     else {loadFlag = false}
     return(
       <RefreshControl
         refreshing={loadFlag}
         onRefresh={this._onRefresh.bind(this)}
         tintColor="#888888"
-        title="加载中..."
+        title={text}
         progressBackgroundColor="#888888"
         titleColor="#888888"
         colors={['#888888', '#888888', '#888888']}
