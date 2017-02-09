@@ -15,6 +15,15 @@ export default styles = {
     marginBottom:10,
     flex:1,
     backgroundColor: '#fff',
+    overflow:"hidden",
+  },
+  itemContainerLast:{
+    paddingTop:10,
+    paddingLeft:15,
+    paddingRight:15,
+    flex:1,
+    backgroundColor: '#fff',
+    overflow:"hidden",
   },
   itemHeader:{
     height:40,

@@ -51,7 +51,8 @@ class Index extends Component {
     fetchNews(1)
   }
   _ArticleStruct(value,index){
-    let {time} = this.props.store
+    let {time,data} = this.props.store
+    let isLast = (index == data.length - 1)?true:false
     let article = {
       name:value.author.loginname,
       avatar:value.author.avatar_url,
@@ -62,7 +63,7 @@ class Index extends Component {
       seeNumber:value.visit_count,
       lastCmtTime:getTimeFunc(time,new Date(value.last_reply_at).getTime()),
     }
-    return(<Item article={article} key={value.id} />)
+    return(<Item article={article} key={value.id} isLast={isLast} />)
   }
   _renderItem(){
     let {state,data} = this.props.store

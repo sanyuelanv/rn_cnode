@@ -9,9 +9,10 @@ class Item extends Component {
   componentWillMount(){
   }
   render() {
-    let {name,avatar,time,tag,title,seeNumber,cmtNumber,lastCmtTime} = this.props.article
+    let {isLast,article} = this.props
+    let {name,avatar,time,tag,title,seeNumber,cmtNumber,lastCmtTime} = article
     return (
-      <View style={styles.itemContainer}>
+      <View style={isLast?styles.itemContainerLast:styles.itemContainer}>
         <View style={styles.itemHeader}>
           <Image
             style={styles.itemAvatar}
