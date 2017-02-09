@@ -28,15 +28,6 @@ let LeftButton = (route, navigator, index, navState) =>{
   else {return(<View></View>)}
 }
 let RightButton = (route, navigator, index, navState) =>{
-  // let {routeStack,presentedIndex} = navState
-  // if(presentedIndex){
-  //   return (
-  //     <View style = {styles.left} >
-  //         <Text style = {styles.backText} >返回</Text>
-  //     </View>
-  //   )
-  // }
-  // else {return(<View></View>)}
   return(<View></View>)
 }
 

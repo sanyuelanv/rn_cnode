@@ -1,15 +1,18 @@
 export default styles = {
-  container: {
-    backgroundColor: '#f1f1f1',
+  page:{
     flex: 1,
-    marginTop:60,
+    backgroundColor: '#f1f1f1',
+    paddingTop:60,
+  },
+  container: {
+    flex: 1,
   },
   itemContainer:{
     paddingTop:10,
     // paddingBottom:10,
     paddingLeft:15,
     paddingRight:15,
-    marginTop:8,
+    marginBottom:10,
     flex:1,
     backgroundColor: '#fff',
   },
@@ -34,6 +37,7 @@ export default styles = {
     fontSize:16,
     lineHeight:22,
     color:"#333",
+    marginBottom:3,
   },
   topicInfor:{
     flexDirection: 'row',
@@ -54,8 +58,9 @@ export default styles = {
     color:"#929292",
   },
   itemTitle:{
-    marginTop:10,
-    marginBottom:10,
+    marginTop:15,
+    marginBottom:15,
+    paddingRight:3,
     fontSize:16,
     color:"#222",
     lineHeight:22,

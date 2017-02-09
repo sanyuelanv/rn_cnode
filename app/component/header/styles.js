@@ -3,10 +3,7 @@ export default styles = {
     height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
-    borderBottomColor: '#d1d1d1',
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
+    flexDirection: 'row',  
     backgroundColor: '#444444',
   },
   header: {
