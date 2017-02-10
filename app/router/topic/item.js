@@ -11,6 +11,7 @@ class Item extends Component {
   _onPress(){
     let {article,navigator} = this.props
     let {id} = article
+    navigator.push({id:"Item",name:"详情",back:true})
   }
   render() {
     let {isLast,article} = this.props

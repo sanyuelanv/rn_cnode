@@ -140,7 +140,7 @@ class Index extends Component {
             renderRow = {this._renderRow.bind(this)}
             enableEmptySections = {true}
             onEndReached = {this._onEndReached.bind(this)}
-            onEndReachedThreshold = 100
+            onEndReachedThreshold = {100}
           />
         </ScrollView>
       </View>

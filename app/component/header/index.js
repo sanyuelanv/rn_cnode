@@ -13,7 +13,7 @@ let MidTitle = (route, navigator, index, navState)=>{
 }
 let LeftButton = (route, navigator, index, navState) =>{
   let {routeStack,presentedIndex} = navState
-  if(route.index){
+  if(route.back){
     return (
       <TouchableHighlight
         underlayColor = {'transparent'}
