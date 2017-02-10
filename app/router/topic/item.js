@@ -16,8 +16,7 @@ class Item extends Component {
     let {isLast,article} = this.props
     let {name,avatar,time,tag,title,seeNumber,cmtNumber,lastCmtTime} = article
     return (
-      <TouchableOpacity onPress={this._onPress.bind(this)}>
-      <View style={isLast?styles.itemContainerLast:styles.itemContainer}>
+      <TouchableOpacity onPress={this._onPress.bind(this)} style={isLast?styles.itemContainerLast:styles.itemContainer}>
         <View style={styles.itemHeader}>
           <Image
             style={styles.itemAvatar}
@@ -45,7 +44,6 @@ class Item extends Component {
             <Text style={styles.footBoxtext}>{lastCmtTime}</Text>
           </View>
         </View>
-      </View>
       </TouchableOpacity>
     )
   }

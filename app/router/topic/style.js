@@ -4,6 +4,9 @@ export default styles = {
     backgroundColor: '#f1f1f1',
     paddingTop:60,
   },
+  touchList:{
+    flex: 1,
+  },
   container: {
     flex: 1,
   },

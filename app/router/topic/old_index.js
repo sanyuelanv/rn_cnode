@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import styles from './style'
 import Item from './item'
 import { observer } from 'mobx-react/native'
-import {StyleSheet,Text,View,ListView,ScrollView,RefreshControl} from 'react-native'
+import {StyleSheet,Text,View,ScrollView,RefreshControl} from 'react-native'
 const tabArray = {
   ask:"问答",
   share:'分享',
@@ -15,7 +15,6 @@ const getTagName = function(tag){
   else if(tag == "share"){tagName = tabArray.share}
   else if(tag == "job"){tagName = tabArray.job}
   else if(tag == "good"){tagName = tabArray.good}
-  else {tagName = '未知'}
   return tagName
 }
 const getTimeFunc = function(nowTime,getTime){
@@ -58,13 +57,12 @@ class Index extends Component {
     super(props)
   }
   componentWillMount(){
-    let {fetchTopic} = this.props.store
-    fetchTopic(1)
-
+    let {fetchNews} = this.props.store
+    fetchNews(1)
   }
   _ArticleStruct(value,index){
     let {navigator,store} = this.props
-    let {time,list} = store
+    let {time,data} = store
     let isLast = (index == data.length - 1)?true:false
     let article = {
       id:value.id,
@@ -79,29 +77,17 @@ class Index extends Component {
     }
     return(<Item article={article} key={value.id} isLast={isLast} navigator={navigator} />)
   }
-  _renderRow(value,sid,rid){
-    let {navigator,store} = this.props
-    let {time,list} = store
-    let isLast = (rid == list.length - 1)?true:false
-    let article = {
-      id:value.id,
-      name:value.author.loginname,
-      avatar:value.author.avatar_url,
-      time:getTimeFunc(time,new Date(value.create_at).getTime()),
-      tag:getTagName(value.tab),
-      title:value.title,
-      cmtNumber:value.reply_count,
-      seeNumber:value.visit_count,
-      lastCmtTime:getTimeFunc(time,new Date(value.last_reply_at).getTime()),
+  _renderItem(){
+    let {state,data} = this.props.store
+    if(data.length == 0){return null}
+    else {
+      let ItemArray = data.map(this._ArticleStruct.bind(this))
+      return ItemArray
     }
-    return(<Item article={article} key={value.id} isLast={isLast} navigator={navigator} />)
   }
   _onRefresh(){
     let {fetchNews} = this.props.store
     fetchNews(1)
-  }
-  _onEndReached(){
-
   }
   _renderRefreshControl(){
     let {state,time} = this.props.store
@@ -131,17 +117,10 @@ class Index extends Component {
     return (
       <View style={styles.page}>
         <ScrollView
+          style={styles.container}
           refreshControl={this._renderRefreshControl()}
-          style={styles.touchList}
         >
-          <ListView
-            style={styles.container}
-            dataSource= {this.props.store.dataSource}
-            renderRow = {this._renderRow.bind(this)}
-            enableEmptySections = {true}
-            onEndReached = {this._onEndReached.bind(this)}
-            onEndReachedThreshold = 100
-          />
+          {this._renderItem()}
         </ScrollView>
       </View>
     )
