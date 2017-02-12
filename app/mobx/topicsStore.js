@@ -12,6 +12,7 @@ class fetchDataStore {
   @observable list
   @observable state
   @observable time
+  @observable page
   @computed get dataSource() {
    return this.ds.cloneWithRows(this.list.slice())
  }
@@ -27,7 +28,7 @@ class fetchDataStore {
             this.state = 2
             this.time = new Date().getTime()
             if(page > 1){
-              
+
             }
             else {
               this.data = data
@@ -50,11 +51,18 @@ class fetchDataStore {
       .then(
         action("fetchOperate_success",(res) => {
           let {data,success} = res
+          console.log(data);
           if(success){
             this.state = 2
             this.time = new Date().getTime()
-            if(page.length > 0){}
-            else {this.list = data}
+            if(page > 1){
+              this.list = this.list.concat(data)
+              this.page = page
+            }
+            else {
+              this.list = data
+              this.page = page
+            }
           }
           else {this.state = -1}
         })
@@ -70,6 +78,7 @@ class fetchDataStore {
     this.data = []
     this.state = 0
     this.time = 0
+    this.page = 0
   }
 }
 const fetchData = new fetchDataStore()

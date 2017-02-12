@@ -1,18 +1,21 @@
+import {Platform} from 'react-native'
+let {OS} = Platform
 export default styles = {
   page:{
     flex: 1,
     backgroundColor: '#f1f1f1',
-    paddingTop:60,
+    marginTop:OS == "android"?40:60
   },
   touchList:{
     flex: 1,
+    // position:'absolute',
+    // top:OS == "android"?40:60,
   },
   container: {
     flex: 1,
   },
   itemContainer:{
     paddingTop:10,
-    // paddingBottom:10,
     paddingLeft:15,
     paddingRight:15,
     marginBottom:10,
@@ -37,7 +40,10 @@ export default styles = {
     width:40,
     height:40,
     borderRadius:20,
-    backgroundColor: '#ddd',
+    borderWidth:1,
+    borderColor:'#ddd',
+    // backgroundColor: '#ddd',
+    overflow:"hidden",
     // backgroundColor: '#fff',
   },
   itemHeaderUser:{
@@ -60,13 +66,18 @@ export default styles = {
     color:"#929292",
   },
   topicTag:{
-    marginLeft:5,
-    padding:3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height:18,
+    marginLeft:4,
+    paddingRight:3,
+    paddingLeft:3,
     borderRadius:3,
     backgroundColor:"#e5e5e5",
   },
   tagName:{
     fontSize:11,
+    // lineHeight:13,
     color:"#929292",
   },
   itemTitle:{

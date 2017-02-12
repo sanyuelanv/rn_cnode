@@ -1,8 +1,10 @@
+import {Platform} from 'react-native'
+let {OS} = Platform
 export default styles = {
   page:{
     flex: 1,
     backgroundColor: '#f1f1f1',
-    paddingTop:60,
+    paddingTop:OS == "android"?40:60,
   },
   itemContainer:{
     paddingTop:10,

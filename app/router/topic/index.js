@@ -60,7 +60,6 @@ class Index extends Component {
   componentWillMount(){
     let {fetchTopic} = this.props.store
     fetchTopic(1)
-
   }
   _ArticleStruct(value,index){
     let {navigator,store} = this.props
@@ -97,10 +96,12 @@ class Index extends Component {
     return(<Item article={article} key={value.id} isLast={isLast} navigator={navigator} />)
   }
   _onRefresh(){
-    let {fetchNews} = this.props.store
-    fetchNews(1)
+    let {fetchTopic} = this.props.store
+    fetchTopic(1)
   }
   _onEndReached(){
+    let {fetchTopic,state,page} = this.props.store
+    if(state > 1){fetchTopic(page+1)}
 
   }
   _renderRefreshControl(){
@@ -127,22 +128,19 @@ class Index extends Component {
       />
     )
   }
+
   render() {
     return (
       <View style={styles.page}>
-        <ScrollView
+        <ListView
           refreshControl={this._renderRefreshControl()}
-          style={styles.touchList}
-        >
-          <ListView
-            style={styles.container}
-            dataSource= {this.props.store.dataSource}
-            renderRow = {this._renderRow.bind(this)}
-            enableEmptySections = {true}
-            onEndReached = {this._onEndReached.bind(this)}
-            onEndReachedThreshold = {100}
-          />
-        </ScrollView>
+          style={styles.container}
+          dataSource= {this.props.store.dataSource}
+          renderRow = {this._renderRow.bind(this)}
+          enableEmptySections = {true}
+          onEndReached = {this._onEndReached.bind(this)}
+          onEndReachedThreshold = {100}
+        />
       </View>
     )
   }
