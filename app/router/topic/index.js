@@ -58,8 +58,9 @@ class Index extends Component {
     super(props)
   }
   componentWillMount(){
-    let {fetchTopic} = this.props.store
-    fetchTopic(1)
+    let {fetchTopic,getFromStorage} = this.props.store
+    // fetchTopic(1)
+    getFromStorage()
   }
   _ArticleStruct(value,index){
     let {navigator,store} = this.props

@@ -4,46 +4,18 @@ import {
   observable,
   action
 } from 'mobx'
-import {ListView} from 'react-native'
+import {ListView,AsyncStorage} from 'react-native'
 // 请求
 class fetchDataStore {
   ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-  @observable data
   @observable list
   @observable state
   @observable time
   @observable page
-  @computed get dataSource() {
-   return this.ds.cloneWithRows(this.list.slice())
- }
-  @action fetchNews = (page) => {
-    this.state = 1
-    let fetchURL = 'https://cnodejs.org/api/v1/topics?page=' + page
-    fetch(fetchURL, {method: 'get'})
-      .then(res => res.json())
-      .then(
-        action("fetchOperate_success",(res) => {
-          let {data,success} = res
-          if(success){
-            this.state = 2
-            this.time = new Date().getTime()
-            if(page > 1){
-
-            }
-            else {
-              this.data = data
-            }
-          }
-          else {this.state = -1}
-        })
-      )
-      .catch(
-        action("fetchOperate_error",(err) => {
-          this.state = -1
-        })
-      )
-  }
+  @computed get dataSource() {return this.ds.cloneWithRows(this.list.slice())}
   @action fetchTopic = (page) => {
+    console.log("读取网络数据")
+    console.log(page);
     this.state = 1
     let fetchURL = 'https://cnodejs.org/api/v1/topics?page=' + page
     fetch(fetchURL, {method: 'get'})
@@ -51,17 +23,26 @@ class fetchDataStore {
       .then(
         action("fetchOperate_success",(res) => {
           let {data,success} = res
-          console.log(data);
           if(success){
             this.state = 2
             this.time = new Date().getTime()
+            // 不是第一页就合并数组
             if(page > 1){
               this.list = this.list.concat(data)
               this.page = page
             }
+            // 是第一页就存储内容
             else {
               this.list = data
               this.page = page
+              let str = ''
+              for(let i=0;i<data.length;i++){
+                let val = data[i]
+                if(i<data.length-1){str += JSON.stringify(val)+"@RN"}
+                else {str += JSON.stringify(val)}
+              }
+              let topicStorage = {value:str,time:this.time}
+              AsyncStorage.setItem("topic",JSON.stringify(topicStorage),(err)=>{})
             }
           }
           else {this.state = -1}
@@ -73,9 +54,31 @@ class fetchDataStore {
         })
       )
   }
+  @action getFromStorage = ()=>{
+    console.log("读取内存")
+    // test code
+    // AsyncStorage.clear()
+    this.state = 1
+    AsyncStorage.getItem('topic',action("getItemFronStorage",(err,res)=>{
+      if(err){this.state = -1}
+      else if(res == null){
+        console.log("内存为空");
+        this.fetchTopic(1)
+      }
+      else {
+        console.log("读取内存数据")
+        this.state = 2
+        let data = JSON.parse(res)
+        let strArr = data.value.split('@RN')
+        let jsonArr = strArr.map((val,index)=>{return JSON.parse(val)})
+        this.time = data.time
+        this.list = jsonArr
+        this.page = 1
+      }
+    }))
+  }
   constructor() {
     this.list = []
-    this.data = []
     this.state = 0
     this.time = 0
     this.page = 0
