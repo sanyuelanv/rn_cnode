@@ -7,4 +7,4 @@
 使用的组件主要是listView。感谢cnode的API。
 
 ## UI
-![UI截图]()
+![UI截图](https://raw.githubusercontent.com/sanyuelanv/rn_cnode/master/screenshots/1.png)
