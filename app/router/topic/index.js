@@ -75,6 +75,7 @@ class Index extends Component {
       title:value.title,
       cmtNumber:value.reply_count,
       seeNumber:value.visit_count,
+      top:value.top,
       lastCmtTime:getTimeFunc(time,new Date(value.last_reply_at).getTime()),
     }
     return(<Item article={article} key={value.id} isLast={isLast} navigator={navigator} />)
@@ -92,6 +93,7 @@ class Index extends Component {
       title:value.title,
       cmtNumber:value.reply_count,
       seeNumber:value.visit_count,
+      top:value.top,
       lastCmtTime:getTimeFunc(time,new Date(value.last_reply_at).getTime()),
     }
     return(<Item article={article} key={value.id} isLast={isLast} navigator={navigator} />)

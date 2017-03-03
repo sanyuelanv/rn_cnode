@@ -50,6 +50,7 @@ export default styles = {
     marginLeft:10,
     flex:1,
     justifyContent: 'center',
+    // backgroundColor:"#CCC",
   },
   userName:{
     fontSize:16,
@@ -58,7 +59,25 @@ export default styles = {
     marginBottom:3,
   },
   topicInfor:{
+    // backgroundColor:"#CCC",
     flexDirection: 'row',
+  },
+  setTop:{
+    position:"absolute",
+    right:10,
+    top:13,
+    height:18,
+    paddingRight:3,
+    paddingLeft:3,
+    // paddingTop:2,
+    // paddingBottom:2,
+    borderRadius:3,
+    backgroundColor:"#e5e5e5",
+  },
+  setTopText:{
+    color:"#555",
+    fontSize:12,
+    lineHeight:16,
   },
   userInfo:{
     fontSize:12,

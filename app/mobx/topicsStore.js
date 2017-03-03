@@ -12,10 +12,11 @@ class fetchDataStore {
   @observable state
   @observable time
   @observable page
+  @observable topic
   @computed get dataSource() {return this.ds.cloneWithRows(this.list.slice())}
   @action fetchTopic = (page) => {
-    console.log("读取网络数据")
-    console.log(page);
+    // console.log("读取网络数据")
+    // console.log(page);
     this.state = 1
     let fetchURL = 'https://cnodejs.org/api/v1/topics?page=' + page
     fetch(fetchURL, {method: 'get'})
@@ -42,7 +43,10 @@ class fetchDataStore {
                 else {str += JSON.stringify(val)}
               }
               let topicStorage = {value:str,time:this.time}
-              AsyncStorage.setItem("topic",JSON.stringify(topicStorage),(err)=>{})
+              AsyncStorage.setItem("topicTime",this.time.toString(),(err)=>{
+                if(err){return}
+                AsyncStorage.setItem("topic",JSON.stringify(topicStorage),(err)=>{})
+              })
             }
           }
           else {this.state = -1}
@@ -55,30 +59,37 @@ class fetchDataStore {
       )
   }
   @action getFromStorage = ()=>{
-    console.log("读取内存")
-    // test code
-    // AsyncStorage.clear()
     this.state = 1
-    AsyncStorage.getItem('topic',action("getItemFronStorage",(err,res)=>{
-      if(err){this.state = -1}
-      else if(res == null){
-        console.log("内存为空");
+    AsyncStorage.getItem('topicTime',action("getItemTime",(err,res)=>{
+      if(new Date().getTime() - parseInt(res) > 7200 * 1000){
+        console.log('内存已经过期');
         this.fetchTopic(1)
       }
       else {
-        console.log("读取内存数据")
-        this.state = 2
-        let data = JSON.parse(res)
-        let strArr = data.value.split('@RN')
-        let jsonArr = strArr.map((val,index)=>{return JSON.parse(val)})
-        this.time = data.time
-        this.list = jsonArr
-        this.page = 1
+        console.log('内存未过期');
+        AsyncStorage.getItem('topic',action("getItemFronStorage",(err,res)=>{
+          if(err){this.state = -1}
+          else if(res == null){
+            console.log("内存为空");
+            this.fetchTopic(1)
+          }
+          else {
+            //console.log("读取内存数据")
+            this.state = 2
+            let data = JSON.parse(res)
+            let strArr = data.value.split('@RN')
+            let jsonArr = strArr.map((val,index)=>{return JSON.parse(val)})
+            this.time = data.time
+            this.list = jsonArr
+            this.page = 1
+          }
+        }))
       }
     }))
   }
   constructor() {
     this.list = []
+    this.topic = {}
     this.state = 0
     this.time = 0
     this.page = 0

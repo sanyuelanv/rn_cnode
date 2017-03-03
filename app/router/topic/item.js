@@ -5,6 +5,7 @@ import {StyleSheet,Text,View,Image,TouchableOpacity} from 'react-native'
 class Item extends Component {
   constructor(props){
     super(props)
+    this._onPress = this._onPress.bind(this)
   }
   componentWillMount(){
   }
@@ -13,24 +14,36 @@ class Item extends Component {
     let {id} = article
     navigator.push({id:"Item",name:"详情",back:true})
   }
+  _renderTop(){
+    let {top} = this.props.article
+    if(top){
+      return(
+        <View style={styles.setTop}>
+          <Text style={styles.setTopText}>置顶</Text>
+        </View>
+      )
+    }
+  }
   render() {
     let {isLast,article} = this.props
-    let {name,avatar,time,tag,title,seeNumber,cmtNumber,lastCmtTime} = article
+    let {name,avatar,time,tag,title,seeNumber,cmtNumber,lastCmtTime,top} = article
+    // console.log(top);
     return (
-      <TouchableOpacity onPress={this._onPress.bind(this)} style={isLast?styles.itemContainerLast:styles.itemContainer}>
+      <TouchableOpacity onPress={this._onPress} style={isLast?styles.itemContainerLast:styles.itemContainer}>
         <View style={styles.itemHeader}>
           <Image
             style={styles.itemAvatar}
             source={{uri:avatar}}
           />
           <View style={styles.itemHeaderUser}>
-              <Text style={styles.userName}>{name}</Text>
-              <View style={styles.topicInfor}>
-                <Text style={styles.userInfo}>{time}</Text>
-                <View style={styles.topicTag}>
-                  <Text style={styles.tagName}>{tag}</Text>
-                </View>
+            <Text style={styles.userName}>{name}</Text>
+            <View style={styles.topicInfor}>
+              <Text style={styles.userInfo}>{time}</Text>
+              <View style={styles.topicTag}>
+                <Text style={styles.tagName}>{tag}</Text>
               </View>
+            </View>
+            {this._renderTop()}
           </View>
         </View>
         <Text style={styles.itemTitle}>{title}</Text>
